@@ -1,0 +1,40 @@
+name: build
+
+on: [push]
+env:
+  PYTHON_VERSION: 3.6
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Python ${{env.PYTHON_VERSION}}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{env.PYTHON_VERSION}}
+    - name: Set up miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        mamba-version: "*"
+        channels: conda-forge,defaults
+        channel-priority: true
+        auto-update-conda: true
+        auto-activate-base: true
+        python-version: ${{env.PYTHON_VERSION}}
+    - name: Set up the conda environment
+      shell: bash -l {0}
+      run: |
+        mamba create --override-channels -c bioconda -c conda-forge -c defaults -n pyclient --file conda-requirements-minimal.txt --file conda-requirements-test.txt
+    - name: Install pip-requirements
+      shell: bash -l {0}
+      run: |
+        conda activate pyclient
+        python -m pip install --upgrade pip
+        pip install -r pip-requirements.txt
+    - name: Run pre-commit testing
+      shell: bash -l {0}
+      run: |
+        conda activate pyclient
+        bash ci/precommit.sh

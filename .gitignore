@@ -1,0 +1,24 @@
+# PyCharm
+.idea
+
+# Python compiled & optimized files
+*.pyc
+*.pyo
+
+# MyPy Cache directory
+.mypy_cache
+
+# for develop installs
+*.egg-info
+
+# local dirs
+envs
+environments
+.conda
+conda-env-builder
+
+# snakemake
+.snakemake
+
+# VSCode dir
+.vscode

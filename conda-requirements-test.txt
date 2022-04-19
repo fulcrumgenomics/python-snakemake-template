@@ -1,0 +1,5 @@
+# testing
+pytest==5.3.5
+flake8==3.7.9
+mypy==0.761
+black==19.10b0

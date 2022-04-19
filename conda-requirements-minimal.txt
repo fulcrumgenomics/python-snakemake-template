@@ -1,0 +1,13 @@
+# Use the following channels when building a conda environment:
+#   --override-channels -c bioconda -c conda-forge -c defaults
+
+# Packages required to run Snakemake
+python=3.6.10
+snakemake-minimal=5.11.1
+
+# packages used by the pyclient module
+defopt=6.0.2
+attrs=19.3.0
+samwell==0.0.2
+typing_extensions=4.1.1
+
