@@ -18,7 +18,7 @@ from pyclient.pipeline import snakemake_utils
 # Terminal files
 ################################################################################
 
-all_terminal_files: List[Path] = ["message.txt"]
+all_terminal_files: List[Path] = [Path("message.txt")]
 
 ################################################################################
 # Snakemake rules
