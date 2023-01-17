@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test for mamba error
+
 usage() { 
     local err=${1:-""};
     cat <<EOF
