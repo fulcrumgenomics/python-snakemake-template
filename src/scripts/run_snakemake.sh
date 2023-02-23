@@ -52,6 +52,8 @@ log "Memory limit: $mem_gb GB"
 
 # Run Snakemake pipeline
 set -euo pipefail
+
+# shellcheck disable=SC2086
 snakemake \
   --printshellcmds \
   --reason \
@@ -63,7 +65,6 @@ snakemake \
   --snakefile "$snakefile" \
   --directory "$out_dir" \
   $dry_run \
-  "$extra_args";
-
+  $extra_args;
 
 log "All done!"
