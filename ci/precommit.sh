@@ -38,9 +38,9 @@ function run() {
     set -e
     
     if [[ $exit_code == 0 ]]; then
-        echo Passed $name 
+        echo Passed "$name"
     else
-        echo Failed $name [$cmd]
+        echo Failed "$name" ["$cmd"]
         if [ -z "$failures" ]; then
             failures="$failures $name"
         else
@@ -49,21 +49,23 @@ function run() {
     fi
 }
 
-parent=$(cd "$(dirname $0)" && pwd -P)
-root=$(dirname ${parent})/src/python
-r_root=$(dirname ${parent} | xargs dirname)/R
+ci_directory=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+root=$(dirname "${ci_directory}")/src/python
+repo_root=$(dirname "${ci_directory}")
 
 if [[ -z ${CONDA_DEFAULT_ENV} ]]; then
     banner "Conda not active. pyclient conda environment must be active."
     exit 1
 fi
 
-pushd $root > /dev/null
+pushd "$root" > /dev/null
 banner "Executing in conda environment ${CONDA_DEFAULT_ENV} in directory ${root}"
-run "Unit Tests"     "pytest -vv -r sx pyclient"
-run "Style Checking" "black --line-length 99 --check pyclient"
-run "Linting"        "flake8 --config=$parent/flake8.cfg pyclient"
-run "Type Checking"  "mypy -p pyclient --config $parent/mypy.ini"
+run "Unit Tests"                "pytest -vv -r sx pyclient"
+run "Style Checking"            "black --line-length 99 --check pyclient"
+run "Linting"                   "flake8 --config=$ci_directory/flake8.cfg pyclient"
+run "Type Checking"             "mypy -p pyclient --config $ci_directory/mypy.ini"
+run "Shell Check (src/scripts)" "shellcheck -x ${repo_root}/src/scripts/*sh"
+run "Shell Check (precommit)"   "shellcheck -x ${repo_root}/ci/precommit.sh"
 popd > /dev/null
 
 if [ -z "$failures" ]; then

@@ -3,3 +3,4 @@ pytest==7.2.1
 flake8==6.0.0
 mypy==1.0.1
 black==23.1.0
+shellcheck==0.9.0

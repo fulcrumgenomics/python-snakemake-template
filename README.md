@@ -14,7 +14,7 @@ This repo contains the following, in no particular order:
 - a hello world snakefile in `src/snakemake/hello_world.smk`
   - this uses the `onerror` directive to better display rule errors, in particular the last file
     lines of the rule's log
-- a python toolkit (`clien-tools`) in `src/python/pyclient`
+- a python toolkit (`client-tools`) in `src/python/pyclient`
   - uses `defopt` for arg parsing
   - has custom logging in `core/logging.py`
   - has utility methods to support the above `onerror` snakemake directive in `pipeline/snakemake_utils.py`
@@ -31,7 +31,8 @@ This repo is a skeleton for Snakemake pipelines and a Python toolkit.
 - [ ] update `conda-requirements-minimal.txt` with minimal requirements for the `client-tools` toolkit
 - [ ] update `conda-requirements-test.txt` with minimal requirements for the `client-tools` unit testing
 - [ ] update `pyproject.toml` `dependencies` section with minimal requirements for the `client-tools` (prefer conda)
-- [ ] update `src/python/pyclient` source code (search for terms: `PYCLIENT`, `pyclient`, `client-tools`
+- [ ] run `bootstrap.sh` to set up a new repo and rename the tool
+- [ ] delete `bootstrap.sh`
 
 ## Install client-tools
 
@@ -41,7 +42,7 @@ This repo is a skeleton for Snakemake pipelines and a Python toolkit.
 - Create the `pyclient` conda environment
 
 
-```console
+```bash
 mamba create -n pyclient \
   --override-channels -y \
   -c bioconda -c conda-forge -c defaults \
