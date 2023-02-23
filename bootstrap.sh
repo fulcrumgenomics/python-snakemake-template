@@ -19,8 +19,13 @@ client_name=${client_name}-tools
 echo "Using name: [$client_name]"
 
 read -r -p "Package name? [pyclient] > " package_name
+if [[ "$package_name" =~ ^[a-z0-9_]*$ ]]; then
+    echo "Using name: [$package_name]"
+else
+    echo "Invalid package name. Name should be lower case alphanumeric and underscores." && exit 1
+fi
+
 package_name=${package_name:-pyclient}
-echo "Using name: [$package_name]"
 
 echo "Adding initial git commit"
 git commit -m "Initial commit"
