@@ -29,10 +29,10 @@ class SnakemakeLogger(object):
         def fn(d: Dict[str, Any]) -> None:
             if d["level"] != "run_info":
                 return
-            # NB: skip the first two and last lines
-            for counts_line in d["msg"].split("\n")[2:-1]:
+            # NB: skip the first three and last lines
+            for counts_line in d["msg"].split("\n")[3:-1]:
                 counts_line = counts_line.strip()
-                count, job = counts_line.split("\t")
+                job, count, min_threads, max_threads = counts_line.split()
                 assert int(count) > 0, counts_line
 
                 self.rule_count[job] += int(count)
@@ -51,7 +51,7 @@ def run_snakemake(
     """Runs Snakemake.
 
     Args:
-        snakefile: the snake file to execute
+        pipeline: the snake file to execute
         workdir: the working directory in which to run Snakemake
         rules: a mapping of rule name to expect # of times it should run
         config: the optional configuration object for Snakemake

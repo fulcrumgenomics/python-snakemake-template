@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fulcrumgenomics/fgbio/blob/main/LICENSE)
 [![Language](https://img.shields.io/badge/python-3.6.10-brightgreen)](https://www.python.org/downloads/release/python-3610/)
 
-A skeleton repository for Snakemake pipepline(s) and a python command-line toolkit.
+A skeleton repository for Snakemake pipeline(s) and a python command-line toolkit.
 
 ## Why this repo?
 
@@ -27,10 +27,10 @@ This repo contains the following, in no particular order:
 
 This repo is a skeleton for Snakemake pipelines and a Python toolkit.
 
-- [ ] Modify `setup.py`
+- [ ] Modify `pyproject.toml`
 - [ ] update `conda-requirements-minimal.txt` with minimal requirements for the `client-tools` toolkit
 - [ ] update `conda-requirements-test.txt` with minimal requirements for the `client-tools` unit testing
-- [ ] update `pip-requirements.txt` with minimal requirements for the `client-tools` (prefer conda)
+- [ ] update `pyproject.toml` `dependencies` section with minimal requirements for the `client-tools` (prefer conda)
 - [ ] update `src/python/pyclient` source code (search for terms: `PYCLIENT`, `pyclient`, `client-tools`
 
 ## Install client-tools
@@ -55,16 +55,10 @@ mamba create -n pyclient \
 conda activate pyclient
 ```
 
-- Install all non-conda dependencies via pip
-
-```bash
-pip install -r pip-requirements.txt
-```
-
 - Install `pyclient` (in developer mode)
 
 ```bash
-python setup.py develop
+pip install --editable .
 ```
 
 - Validate the install via the help message

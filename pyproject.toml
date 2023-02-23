@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyclient"
+requires-python = ">=3.10"
+version = "0.1"
+authors = [{name = "Fulcrum Genomics", email = "no-reply@fulcrumgenomics.com"}]
+maintainers = [{name = "Fulcrum Genomics", email = "no-reply@fulcrumgenomics.com"}]
+description = "Python/Snakemake Skeleton"
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python :: 3",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+]
+# pip dependencies
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/fulcrumgenomics/python-snakemake-skeleton"
+
+[project.scripts]
+client-tools = "pyclient.tools.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src/python"}
+packages = ["pyclient"]
+zip-safe = false
+include-package-data = true

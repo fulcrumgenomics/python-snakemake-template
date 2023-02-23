@@ -25,18 +25,18 @@ def setup_logging(level: str = "INFO") -> None:
 
     with __LOCK:
         if not __PYCLIENT_LOGGING_SETUP:
-            format = (
+            client_format = (
                 f"%(asctime)s {socket.gethostname()} %(name)s:%(funcName)s:%(lineno)s "
                 + "[%(levelname)s]: %(message)s"
             )
             handler = logging.StreamHandler()
             handler.setLevel(level)
-            handler.setFormatter(logging.Formatter(format))
+            handler.setFormatter(logging.Formatter(client_format))
 
             logger = logging.getLogger("pyclient")
             logger.setLevel(level)
             logger.addHandler(handler)
         else:
-            logging.getLogger(__name__).warn("Logging already initialized.")
+            logging.getLogger(__name__).warning("Logging already initialized.")
 
         __PYCLIENT_LOGGING_SETUP = True

@@ -2,16 +2,16 @@ name: build
 
 on: [push]
 env:
-  PYTHON_VERSION: 3.9
+  PYTHON_VERSION: 3.10.9
 
 jobs:
   testing:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up Python ${{env.PYTHON_VERSION}}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: ${{env.PYTHON_VERSION}}
     - name: Set up miniconda
@@ -33,7 +33,7 @@ jobs:
       run: |
         conda activate pyclient
         python -m pip install --upgrade pip
-        pip install -r pip-requirements.txt
+        pip install --editable .
     - name: Run pre-commit testing
       shell: bash -l {0}
       run: |

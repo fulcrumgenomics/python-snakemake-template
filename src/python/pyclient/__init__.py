@@ -1,3 +1,3 @@
-from pyclient.core import logging
+from pyclient.core import client_logging
 
-logging.setup_logging()
+client_logging.setup_logging()

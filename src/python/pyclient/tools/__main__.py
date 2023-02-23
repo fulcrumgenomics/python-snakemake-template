@@ -10,11 +10,14 @@ import defopt
 from pyclient.tools.hello_world import hello_world
 
 TOOLS: List[Callable] = sorted(
-    [hello_world], key=lambda f: f.__name__,
+    [hello_world],
+    key=lambda f: f.__name__,
 )
 
 
-def main(argv: List[str] = sys.argv[1:]) -> None:
+def main(argv: List[str] = None) -> None:
+    if argv is None:
+        argv = sys.argv[1:]
     logger = logging.getLogger(__name__)
     if len(argv) != 0 and all(arg not in argv for arg in ["-h", "--help"]):
         logger.info("Running command: client-tools " + " ".join(argv))

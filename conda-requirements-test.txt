@@ -1,5 +1,5 @@
-# testing
-pytest==5.3.5
-flake8==3.7.9
-mypy==0.761
-black==19.10b0
+# Packages needed for testing and linting
+pytest==7.2.1
+flake8==6.0.0
+mypy==1.0.1
+black==23.1.0
