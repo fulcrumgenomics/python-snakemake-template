@@ -39,6 +39,7 @@ sed -i -e "s/pyclient/${package_name}/g" README.md
 
 echo "Replacing all 'client-tools' instances with '${client_name}-tools"
 find src -type f -exec sed -i -e "s/client-tools/${client_name}/g" {} \;
+sed -i -e "s/client-tools/${client_name}/g" pyproject.toml
 sed -i -e "s/client-tools/${client_name}/g" README.md
 
 git mv src/python/pyclient src/python/"${package_name}"
