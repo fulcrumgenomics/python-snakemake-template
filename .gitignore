@@ -16,9 +16,13 @@ envs
 environments
 .conda
 conda-env-builder
+build
 
 # snakemake
 .snakemake
 
 # VSCode dir
 .vscode
+
+# pytest cache directory
+.pytest_cache

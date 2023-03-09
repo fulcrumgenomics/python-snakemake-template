@@ -2,7 +2,7 @@
 
 usage() { 
     local err=${1:-""};
-    cat <<EOF
+    cat <<EOF >&2;
 Usage: $0 [options] 
 
 Required:
@@ -13,7 +13,6 @@ Optional:
     -c FILE   Snakemake configuration file
     -n        Run snakemake in dry run mode
 EOF
->&2;
     echo -e "\n$err" >&2;
     exit 1;
 }
@@ -38,12 +37,14 @@ fi
 if [ -z "${out_dir}" ]; then
     usage "Missing required parameter -o";
 fi
-if [ ! -z "${config_file}" ]; then
+if [ -n "${config_file}" ]; then
     extra_args="--configfile $config_file";
 fi
 
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-source $(dirname $0)/common.sh
+# shellcheck source=../../src/scripts/common.sh
+source "$script_dir"/common.sh
 cores=$(find_core_limit)
 mem_gb=$(find_mem_limit_gb)
 log "Number of cores: $cores"
@@ -51,6 +52,8 @@ log "Memory limit: $mem_gb GB"
 
 # Run Snakemake pipeline
 set -euo pipefail
+
+# shellcheck disable=SC2086
 snakemake \
   --printshellcmds \
   --reason \
@@ -59,10 +62,9 @@ snakemake \
   --rerun-incomplete \
   --jobs "$cores" \
   --resources "mem_gb=$mem_gb" \
-  --snakefile $snakefile \
-  --directory $out_dir \
+  --snakefile "$snakefile" \
+  --directory "$out_dir" \
   $dry_run \
   $extra_args;
-
 
 log "All done!"
