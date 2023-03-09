@@ -27,7 +27,6 @@ This repo contains the following, in no particular order:
 
 This repo is a skeleton for Snakemake pipelines and a Python toolkit.
 
-- [ ] Modify `pyproject.toml`
 - [ ] update `conda-requirements-minimal.txt` with minimal requirements for the `client-tools` toolkit
 - [ ] update `conda-requirements-test.txt` with minimal requirements for the `client-tools` unit testing
 - [ ] update `pyproject.toml` `dependencies` section with minimal requirements for the `client-tools` (prefer conda)
