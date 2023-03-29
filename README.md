@@ -1,5 +1,5 @@
 [![build](https://github.com/fulcrumgenomics/python-snakemake-skeleton/actions/workflows/pythonpackage.yml/badge.svg)](https://github.com/fulcrumgenomics/python-snakemake-skeleton/actions/workflows/pythonpackage.yml)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fulcrumgenomics/fgbio/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fulcrumgenomics/python-snakemake-skeleton/blob/main/LICENSE)
 [![Language](https://img.shields.io/badge/python-3.6.10-brightgreen)](https://www.python.org/downloads/release/python-3610/)
 
 A skeleton repository for Snakemake pipepline(s) and a python command-line toolkit.
@@ -14,7 +14,7 @@ This repo contains the following, in no particular order:
 - a hello world snakefile in `src/snakemake/hello_world.smk`
   - this uses the `onerror` directive to better display rule errors, in particular the last file
     lines of the rule's log
-- a python toolkit (`clien-tools`) in `src/python/pyclient`
+- a python toolkit (`client-tools`) in `src/python/pyclient`
   - uses `defopt` for arg parsing
   - has custom logging in `core/logging.py`
   - has utility methods to support the above `onerror` snakemake directive in `pipeline/snakemake_utils.py`
