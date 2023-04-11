@@ -55,16 +55,10 @@ mamba create -n pyclient \
 conda activate pyclient
 ```
 
-- Install all non-conda dependencies via pip
-
-```bash
-pip install -r pip-requirements.txt
-```
-
 - Install `pyclient` (in developer mode)
 
 ```bash
-python setup.py develop
+ pip install --editable .
 ```
 
 - Validate the install via the help message
@@ -77,6 +71,12 @@ client-tools -h
 
 ```bash
 snakemake --snakefile src/snakemake/hello_world.smk -j 1
+```
+
+- Run the precommit script (unit tests, linting, code-style, type checking)
+
+```bash
+bash scripts/precommit.sh
 ```
 
 [fulcrum-genomics-link]: https://www.fulcrumgenomics.com
