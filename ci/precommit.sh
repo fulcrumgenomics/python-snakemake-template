@@ -50,8 +50,8 @@ function run() {
 }
 
 parent=$(cd "$(dirname $0)" && pwd -P)
-root=$(dirname ${parent})/src/python
-r_root=$(dirname ${parent} | xargs dirname)/R
+repo_root=$(dirname ${parent})
+root=${repo_root}/src/python
 
 if [[ -z ${CONDA_DEFAULT_ENV} ]]; then
     banner "Conda not active. pyclient conda environment must be active."
@@ -60,10 +60,12 @@ fi
 
 pushd $root > /dev/null
 banner "Executing in conda environment ${CONDA_DEFAULT_ENV} in directory ${root}"
-run "Unit Tests"     "pytest -vv -r sx pyclient"
-run "Style Checking" "black --line-length 99 --check pyclient"
-run "Linting"        "flake8 --config=$parent/flake8.cfg pyclient"
-run "Type Checking"  "mypy -p pyclient --config $parent/mypy.ini"
+run "Unit Tests"                "pytest -vv -r sx pyclient"
+run "Style Checking"            "black --line-length 99 --check pyclient"
+run "Linting"                   "flake8 --config=$parent/flake8.cfg pyclient"
+run "Type Checking"             "mypy -p pyclient --config $parent/mypy.ini"
+run "Shell Check (src/scripts)" "shellcheck ${repo_root}/src/scripts/*sh"
+run "Shell Check (precommit)"   "shellcheck ${repo_root}/ci/precommit.sh"
 popd > /dev/null
 
 if [ -z "$failures" ]; then
