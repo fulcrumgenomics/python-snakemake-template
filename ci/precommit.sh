@@ -65,7 +65,7 @@ run "Style Checking"            "black --line-length 99 --check pyclient"
 run "Linting"                   "flake8 --config=$parent/flake8.cfg pyclient"
 run "Type Checking"             "mypy -p pyclient --config $parent/mypy.ini"
 run "Shell Check (src/scripts)" "shellcheck ${repo_root}/src/scripts/*sh"
-run "Shell Check (precommit)"   "shellcheck ${repo_root}/src/scripts/pypact/precommit.sh"
+run "Shell Check (precommit)"   "shellcheck ${repo_root}/ci/precommit.sh"
 popd > /dev/null
 
 if [ -z "$failures" ]; then
