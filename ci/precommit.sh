@@ -61,7 +61,7 @@ fi
 pushd $root > /dev/null
 banner "Executing in conda environment ${CONDA_DEFAULT_ENV} in directory ${root}"
 run "Unit Tests"     "pytest -vv -r sx pyclient"
-run "Style Checking" "black --line-length 99 --check pyclient"
+run "Style Checking" "black --line-length 120 --check pyclient"
 run "Linting"        "flake8 --config=$parent/flake8.cfg pyclient"
 run "Type Checking"  "mypy -p pyclient --config $parent/mypy.ini"
 popd > /dev/null
