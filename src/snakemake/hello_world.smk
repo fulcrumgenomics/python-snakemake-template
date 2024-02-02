@@ -26,7 +26,7 @@ all_terminal_files: List[Path] = [Path("message.txt")]
 
 onerror:
     """Block of code that gets called if the snakemake pipeline exits with an error."""
-    snakemake_utils.on_error(snakefile=Path(__file__), config=_config, log=Path(log))
+    snakemake_utils.on_error(snakefile=Path(__file__), config=config, log=Path(log))
 
 
 rule all:
