@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fulcrumgenomics/fgbio/blob/main/LICENSE)
 [![Language](https://img.shields.io/badge/python-3.6.10-brightgreen)](https://www.python.org/downloads/release/python-3610/)
 
-A skeleton repository for Snakemake pipepline(s) and a python command-line toolkit.
+A skeleton repository for Snakemake pipeline(s) and a python command-line toolkit.
 
 ## Why this repo?
 
