@@ -1,0 +1,6 @@
+- name: basic
+  command: bash -c 'scripts/run_snakemake.sh -s hello_world.smk -o test-output/example'
+  files:
+    - path: test-output/example/message.txt
+      contains:
+        - "Hello World"
