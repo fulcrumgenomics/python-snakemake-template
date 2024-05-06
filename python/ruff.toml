@@ -4,7 +4,7 @@ output-format = "concise"
 
 [lint]
 select = ["B", "E", "F", "I", "W"]
-ignore = ["E203", "E701", "E741"]
+ignore = ["E203", "E701"]
 unfixable = ["B"]
 
 [lint.isort]

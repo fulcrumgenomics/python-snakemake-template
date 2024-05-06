@@ -92,10 +92,14 @@ class RuleLog:
 
         logs: List[RuleLog] = []
         while lines:
-            lines = list(dropwhile(lambda l: not l.startswith(cls.RULE_ERROR_PREFIX), iter(lines)))
+            lines = list(
+                dropwhile(lambda line: not line.startswith(cls.RULE_ERROR_PREFIX), iter(lines))
+            )
             if lines:
                 rule_name: str = lines[0].rstrip()[len(cls.RULE_ERROR_PREFIX) : -1]
-                lines = list(dropwhile(lambda l: not l.startswith(cls.LOG_PREFIX), iter(lines)))
+                lines = list(
+                    dropwhile(lambda line: not line.startswith(cls.LOG_PREFIX), iter(lines))
+                )
                 dir: Path = Path(".").absolute()
                 log_path = dir / lines[0].rstrip()[len(cls.LOG_PREFIX) : -len(cls.LOG_SUFFIX)]
                 lines = lines[1:]
