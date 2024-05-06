@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2188,SC2236,SC2046,SC1091
+# shellcheck disable=SC2188,SC2236,SC2046,SC1091,SC2086
 
 usage() { 
     local err=${1:-""};
