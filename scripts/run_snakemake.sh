@@ -49,6 +49,10 @@ mem_gb=$(find_mem_limit_gb)
 log "Number of cores: $cores"
 log "Memory limit: $mem_gb GB"
 
+if [ -z ${cores} ]; then
+    cores=1
+fi
+
 # Run Snakemake pipeline
 set -euo pipefail
 snakemake \
