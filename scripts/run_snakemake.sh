@@ -13,6 +13,7 @@ Required:
 Optional:
     -c FILE   Snakemake configuration file
     -n        Run snakemake in dry run mode
+    -d        Run snakemake in debug mode (--debug and --verbose)
 EOF
 >&2;
     echo -e "\n$err" >&2;
@@ -21,7 +22,7 @@ EOF
 
 dry_run=""
 
-while getopts "s:o:c:n" flag; do
+while getopts "s:o:c:n:d" flag; do
     case "${flag}" in
         s) snakefile=${OPTARG};;
         o) out_dir=${OPTARG};;
@@ -46,12 +47,17 @@ fi
 source $(dirname "$0")/common.sh
 cores=$(find_core_limit)
 mem_gb=$(find_mem_limit_gb)
-log "Number of cores: $cores"
-log "Memory limit: $mem_gb GB"
 
 if [ -z ${cores} ]; then
     cores=1
 fi
+
+if [ -z ${mem_gb} ]; then
+    mem_gb=1
+fi
+
+log "Number of cores: $cores"
+log "Memory limit: $mem_gb GB"
 
 # Run Snakemake pipeline
 set -euo pipefail
