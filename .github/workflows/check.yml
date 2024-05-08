@@ -24,7 +24,7 @@ jobs:
     - name: Install toolkit
       shell: micromamba-shell {0}
       run: |
-        cd python
+        cd toolkit
         poetry install
     - name: Run style checks and unit tests
       shell: micromamba-shell {0}

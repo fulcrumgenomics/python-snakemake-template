@@ -68,7 +68,7 @@ function run() {
 
 parent=$(cd "$(dirname "$0")" && pwd -P)
 repo_root="$(dirname "${parent}")"
-root=${repo_root}/python
+root=${repo_root}/toolkit
 
 fix_format='false'
 fix_lints='false'

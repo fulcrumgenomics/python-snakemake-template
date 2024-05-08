@@ -21,7 +21,7 @@ RUN micromamba install -y -n base -f dev.yml
 RUN micromamba clean --all --yes
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
 # TODO: add '--exclude=env' once that option becomes stable
-COPY --chown=$MAMBA_USER:$MAMBA_USER ./python .
+COPY --chown=$MAMBA_USER:$MAMBA_USER ./toolkit .
 ADD --chown=$MAMBA_USER:$MAMBA_USER https://install.python-poetry.org install-poetry.py
 RUN python3 install-poetry.py
 ENV PATH="${PATH}:~/.local/bin"

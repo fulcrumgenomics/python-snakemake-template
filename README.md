@@ -50,7 +50,7 @@ Each time you add dependencies to either of those files, re-run the script.
 The following command will install the toolkit in "editable" mode, which means it will use the source directory as the installation. This enables you to run tests on the code without having to re-install the package every time you make a change.
 
 ```console
-cd python && poetry install
+cd toolkit && poetry install
 ```
 
 ## Modifying the template
@@ -63,13 +63,13 @@ After you finish reading this file, replace the contents with your project READM
 
 ## Adding a tool to the toolkit
 
-The toolkit has a single entry point, `python/toolkit/tools/__main__.py`.
+The toolkit has a single entry point, `toolkit/toolkit/tools/__main__.py`.
 Each tool is a sub-command of the main entry point.
 Some creative hacking of Defopt is done to enable common options to be defined for the top-level command.
 
 `toolkit.Command` enumerates all the commands; each value is an instance of the `toolkit.tools.Tool` class, which wraps a `Callable` as well as some other metadata required by Defopt (the command name, short options, etc.).
 
-The `run` function in `python/toolkit/tools/__main__.py` is the function that is called when the command is executed. It does the following:
+The `run` function in `toolkit/toolkit/tools/__main__.py` is the function that is called when the command is executed. It does the following:
 
 * Parses any common options and returns the index of the first non-common option and a classl (`toolkit.tools.CommonOptions`) containing the parsed common options.
 * Parses the sub-command and it's options.
@@ -77,9 +77,9 @@ The `run` function in `python/toolkit/tools/__main__.py` is the function that is
 
 To use this framework:
 
-* Add additional tools to `python/toolkit/tools/`, where each tool is a python file.
+* Add additional tools to `toolkit/toolkit/tools/`, where each tool is a Python file.
 * Add a value to the `toolkit.Command` enum for each tool you create.
-* Add any additional dependentices to `python/pyproject.toml`.
+* Add any additional dependentices to `toolkit/pyproject.toml`.
 
 Note that DefOpt has the limitation that the same short name cannot be re-used for different parameters in different sub-commands. This is mostly a good thing as it encourages standardization between tools, but it does limit the pool of available short option names.
 
