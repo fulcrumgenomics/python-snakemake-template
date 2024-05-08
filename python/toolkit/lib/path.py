@@ -16,7 +16,7 @@ def parse_path(path: str) -> Path:
     """
     url = urlparse(path)
     if url.scheme == "s3":
-        return S3Path(f"/{url.netloc}/{url.path}")
+        return Path(S3Path(f"/{url.netloc}/{url.path}"))
     else:
         return Path(url.path).resolve()
 
