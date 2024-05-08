@@ -13,7 +13,7 @@ Required:
 Optional:
     -c FILE   Snakemake configuration file
     -n        Run snakemake in dry run mode
-    -d        Run snakemake in debug mode (--debug and --verbose)
+
 EOF
 >&2;
     echo -e "\n$err" >&2;
@@ -22,13 +22,12 @@ EOF
 
 dry_run=""
 
-while getopts "s:o:c:n:d" flag; do
+while getopts "s:o:c:n" flag; do
     case "${flag}" in
         s) snakefile=${OPTARG};;
         o) out_dir=${OPTARG};;
         c) config_file=${OPTARG};;
         n) dry_run="-n";;
-        d) debug="--debug";;
         *) usage;;
     esac
 done
