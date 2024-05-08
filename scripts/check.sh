@@ -103,8 +103,8 @@ fi
 pushd "$root" >/dev/null
 banner "Executing checks in conda environment ${CONDA_DEFAULT_ENV} in directory ${root}"
 run "Shell Check (scripts)" "shellcheck -x ${repo_root}/scripts/*sh"
+run "Python Linting" "ruff check --fix"
 run "Python Style Checking" "ruff format"
-run "Python Linting" "ruff check"
 run "Python Type Checking" "mypy ."
 run "Python Unit Tests" "pytest -vv -r sx"
 popd >/dev/null
