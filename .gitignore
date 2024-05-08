@@ -11,8 +11,14 @@
 build/
 dist/
 
+# Snakemake
+.snakemake
+
 # MyPy Cache directory
 .mypy_cache
 
 # MacOS
 .DS_Store
+
+# VSCode dir
+.vscode
