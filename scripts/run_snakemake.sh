@@ -28,6 +28,7 @@ while getopts "s:o:c:n:d" flag; do
         o) out_dir=${OPTARG};;
         c) config_file=${OPTARG};;
         n) dry_run="-n";;
+        d) debug="--debug";;
         *) usage;;
     esac
 done
