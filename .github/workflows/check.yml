@@ -46,6 +46,13 @@ jobs:
         environment-file: dependencies/dev.yml
         cache-environment: true
         post-cleanup: 'all'
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+    - name: Install toolkit
+      shell: micromamba-shell {0}
+      run: |
+        cd toolkit
+        poetry install
     - name: Run workflow
       shell: micromamba-shell {0}
       env:
