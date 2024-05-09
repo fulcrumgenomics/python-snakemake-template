@@ -21,13 +21,14 @@ EOF
 }
 
 dry_run=""
-
-while getopts "s:o:c:n" flag; do
+debug=""
+while getopts "s:o:c:n:d" flag; do
     case "${flag}" in
         s) snakefile=${OPTARG};;
         o) out_dir=${OPTARG};;
         c) config_file=${OPTARG};;
         n) dry_run="-n";;
+        d) debug="--debug --verbose";;
         *) usage;;
     esac
 done
@@ -48,8 +49,8 @@ source $(dirname "$0")/common.sh
 cores=$(find_core_limit)
 mem_gb=$(find_mem_limit_gb)
 
-if [ -z ${cores} ]; then
-    cores=1
+if [ -z "${cores}" ] || [[ -n ${debug} ]]; then
+  cores=1
 fi
 
 if [ -z ${mem_gb} ]; then
@@ -71,6 +72,7 @@ snakemake \
   --snakefile "$snakefile" \
   --directory "$out_dir" \
   $dry_run \
+  $debug \
   $extra_args;
 
 
