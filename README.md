@@ -1,84 +1,116 @@
-[![build](https://github.com/fulcrumgenomics/python-snakemake-skeleton/actions/workflows/pythonpackage.yml/badge.svg)](https://github.com/fulcrumgenomics/python-snakemake-skeleton/actions/workflows/pythonpackage.yml)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fulcrumgenomics/fgbio/blob/main/LICENSE)
-[![Language](https://img.shields.io/badge/python-3.6.10-brightgreen)](https://www.python.org/downloads/release/python-3610/)
+# Workflow
 
-A skeleton repository for Snakemake pipepline(s) and a python command-line toolkit.
+This is a Snakemake workflow with a Python toolkit.
 
-## Why this repo?
+This project uses the following tools:
 
-This the starting point for [Fulcrum Genomics][fulcrum-genomics-link] projects that contain Snakemake pipelines
-and a python toolkit.
+* Toolkit
+  * Poetry for managing dependencies and for building/installing
+  * Defopt for argument parsing
+  * Pytest for testing the toolkit
+  * Ruff for formatting and linting
+  * Mypy for Python type checking
+* Workflow
+  * Snakemake for workflow execution
+  * Mamba for package management
+  * [Micromamba Docker](https://github.com/mamba-org/micromamba-docker) for containerization
+  * [pytest-workflow](https://pytest-workflow.readthedocs.io/en/stable/) for testing the workflow
 
-This repo contains the following, in no particular order:
+## Prerequisites
 
-- a hello world snakefile in `src/snakemake/hello_world.smk`
-  - this uses the `onerror` directive to better display rule errors, in particular the last file
-    lines of the rule's log
-- a python toolkit (`clien-tools`) in `src/python/pyclient`
-  - uses `defopt` for arg parsing
-  - has custom logging in `core/logging.py`
-  - has utility methods to support the above `onerror` snakemake directive in `pipeline/snakemake_utils.py`
-  - has a unit test to ensure the above snakefile is runnable and generally executes the expected rules in `tests/test_hello_world.py`.
-    This also includes a utility method to support running and verifying snakemake in `tests/util.py`
-  - supports multiple sub-commands in `tools/__main__.py` with some nice logging when a tool fails
-  - a little hello world tool in `tools/hello_world.py`
+* [Poetry](https://python-poetry.org/docs/#installation): It is important that poetry is *not* installed in the same environment as your package dependencies. We recommend using the "official" installer:
+```console
+curl -sSL https://install.python-poetry.org | python3 -
+```
+* [Mamba](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html)
+* [Docker](https://docs.docker.com/engine/install/)
 
-## Modifying this repo for a new client
+## Getting started
 
-This repo is a skeleton for Snakemake pipelines and a Python toolkit.
-
-- [ ] Modify `setup.py`
-- [ ] update `conda-requirements-minimal.txt` with minimal requirements for the `client-tools` toolkit
-- [ ] update `conda-requirements-test.txt` with minimal requirements for the `client-tools` unit testing
-- [ ] update `pip-requirements.txt` with minimal requirements for the `client-tools` (prefer conda)
-- [ ] update `src/python/pyclient` source code (search for terms: `PYCLIENT`, `pyclient`, `client-tools`
-
-## Install client-tools
-
-- [Install conda][conda-link]
-
-
-- Create the `pyclient` conda environment
-
+Set up your environment:
 
 ```console
-mamba create -n pyclient \
-  --override-channels -y \
-  -c bioconda -c conda-forge -c defaults \
-  --file conda-requirements-minimal.txt \
-  --file conda-requirements-test.txt
+bash scripts/mamba.sh [-A]
 ```
 
-- Activate the `pyclient` conda environment
+This will create a new environment with the same name as the project and will install the dependencies from [dependencies/dev.yml](dependencies/dev.yml).
+You can specify a different environment name with the `-n` option.
+The `-A` option causes the environment to be activated.
 
-```bash
-conda activate pyclient
+To activate the environment manually, run:
+
+```console
+mamba activate <project>
 ```
 
-- Install all non-conda dependencies via pip
+Each time you add dependencies to either of those files, re-run the script.
 
-```bash
-pip install -r pip-requirements.txt
+## Setting up the toolkit for development
+
+The following command will install the toolkit in "editable" mode, which means it will use the source directory as the installation. This enables you to run tests on the code without having to re-install the package every time you make a change.
+
+```console
+cd toolkit && poetry install
 ```
 
-- Install `pyclient` (in developer mode)
+## Modifying the template
 
-```bash
-python setup.py develop
+The [`.env`](.env) contains:
+* A `PROJECT` variable that must be set to the name of the project. It defaults to "workflow", but that's probably not what you want.
+* A `DOCKER_IMAGE_VERSION` variable that defaults to `1.0`.
+
+After you finish reading this file, replace the contents with your project README.
+
+## Adding a tool to the toolkit
+
+The toolkit has a single entry point, `toolkit/toolkit/tools/__main__.py`.
+Each tool is a sub-command of the main entry point.
+Some creative hacking of Defopt is done to enable common options to be defined for the top-level command.
+
+`toolkit.Command` enumerates all the commands; each value is an instance of the `toolkit.tools.Tool` class, which wraps a `Callable` as well as some other metadata required by Defopt (the command name, short options, etc.).
+
+The `run` function in `toolkit/toolkit/tools/__main__.py` is the function that is called when the command is executed. It does the following:
+
+* Parses any common options and returns the index of the first non-common option and a classl (`toolkit.tools.CommonOptions`) containing the parsed common options.
+* Parses the sub-command and it's options.
+* Executes the sub-command with the parsed options.
+
+To use this framework:
+
+* Add additional tools to `toolkit/toolkit/tools/`, where each tool is a Python file.
+* Add a value to the `toolkit.Command` enum for each tool you create.
+* Add any additional dependentices to `toolkit/pyproject.toml`.
+
+Note that DefOpt has the limitation that the same short name cannot be re-used for different parameters in different sub-commands. This is mostly a good thing as it encourages standardization between tools, but it does limit the pool of available short option names.
+
+## Adding a rule to the workflow
+
+If your new rule requires one or more tools that aren't available in one of the existing images, you'll need to add a new environment configuration file in [dependencies](dependencies/) with all of the packages required in your new image.
+Next, modify [Dockerfile](Dockerfile) to add a build target for your new image, following the provided template.
+Finally, to build your new image, run:
+
+```console
+bash scripts/docker.sh [-m] [-v VERSION] <target>
 ```
 
-- Validate the install via the help message
+or to build all images run:
 
-```bash
-client-tools -h
+```console
+bash scripts/docker.sh [-m] [-v VERSION] 
 ```
 
-- Validate the snakemake install
+The `-m` option builds images that are compatible with an ARM Mac.
+The `-v` option specifies the version with which to tag the images.
 
-```bash
-snakemake --snakefile src/snakemake/hello_world.smk -j 1
+
+## Integration tests
+
+Integration tests are defined in YAML files in the [tests](tests/) folder. See the [pytest-workflow docs](https://pytest-workflow.readthedocs.io/en/stable/) for details on how to write tests.
+
+To run the integration tests:
+
+```console
+PROFILES=local,test[,rosetta|linux] pytest --git-aware tests/integration/
 ```
 
-[fulcrum-genomics-link]: https://www.fulcrumgenomics.com
-[conda-link]: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
-
+The `rosetta` profile is required on an ARM mac, and the `linux` profile is required on linux.

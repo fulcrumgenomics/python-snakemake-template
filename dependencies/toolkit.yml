@@ -1,0 +1,8 @@
+# This config file is for the host environment into which the toolkit
+# is installed. The toolkit's dependencies are managed in toolkit/pyproject.toml.
+name: toolkit
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11.*

@@ -1,0 +1,12 @@
+line-length = 99
+target-version = "py39"
+output-format = "concise"
+
+[lint]
+select = ["B", "E", "F", "I", "W"]
+ignore = ["E203", "E701"]
+unfixable = ["B"]
+
+[lint.isort]
+# switch to multi-line output when available
+force-single-line = true

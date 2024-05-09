@@ -1,0 +1,17 @@
+name: dev
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  # Python
+  - python=3.11.*
+  - ruff>=0.2.1
+  - mypy>=1.8
+  - pytest>=8.0.0
+  - pytest-workflow=2.1.0
+  - poetry=1.8.2
+  # Snakemake
+  - snakemake-minimal>=8.11.1
+  # Other
+  - shellcheck>=0.9

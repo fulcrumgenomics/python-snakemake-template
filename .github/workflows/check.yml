@@ -1,0 +1,61 @@
+name: check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  toolkit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - uses: mamba-org/setup-micromamba@v1
+      with:
+        micromamba-version: '1.5.6-0'
+        environment-name: test
+        environment-file: dependencies/dev.yml
+        cache-environment: true
+        post-cleanup: 'all'
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+    - name: Install toolkit
+      shell: micromamba-shell {0}
+      run: |
+        cd toolkit
+        poetry install
+    - name: Run style checks and unit tests
+      shell: micromamba-shell {0}
+      run: |
+        bash scripts/check.sh
+  
+  workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Build Docker images
+      run: |
+        bash scripts/docker.sh
+    - uses: mamba-org/setup-micromamba@v1
+      with:
+        micromamba-version: '1.5.6-0'
+        environment-name: test
+        environment-file: dependencies/dev.yml
+        cache-environment: true
+        post-cleanup: 'all'
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+    - name: Install toolkit
+      shell: micromamba-shell {0}
+      run: |
+        cd toolkit
+        poetry install
+    - name: Run workflow
+      shell: micromamba-shell {0}
+      env:
+        PROFILES: local,test,linux
+      run: |
+        pytest --git-aware tests/integration/

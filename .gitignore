@@ -1,24 +1,24 @@
-# PyCharm
-.idea
-
 # Python compiled & optimized files
 *.pyc
 *.pyo
+*__pycache__*
+*.pytest_cache
+
+# Ruff cache
+*.ruff_cache
+
+# Build artifacts
+build/
+dist/
+
+# Snakemake
+.snakemake
 
 # MyPy Cache directory
 .mypy_cache
 
-# for develop installs
-*.egg-info
-
-# local dirs
-envs
-environments
-.conda
-conda-env-builder
-
-# snakemake
-.snakemake
+# MacOS
+.DS_Store
 
 # VSCode dir
 .vscode
