@@ -13,6 +13,7 @@ Required:
 Optional:
     -c FILE   Snakemake configuration file
     -n        Run snakemake in dry run mode
+    -d        --debug and --verbose output
 
 EOF
 >&2;
